@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,16 +43,40 @@ public class AddWordOutsideLinearLayout extends LinearLayout {
     }
 
     public void setTextViewOrientation(int orientation) {
+        //切换为横排
         if (orientation == LinearLayout.HORIZONTAL) {
             if (addWordInsideLinearlayouts != null && addWordInsideLinearlayouts.length > 0) {
                 removeAllViews();
+
+                /**
+                 * 处理英文 竖排的时候英文效果体验不好
+                 */
+                List<TextView> textViews = addWordInsideLinearlayouts[0].getTextViews();
+                for(TextView textView:textViews){
+                    if(StringUtils.isEnglish(textView.getText().toString())){
+                        textView.setRotation(90);
+                    }
+                }
+
                 for (int i = addWordInsideLinearlayouts.length - 1; i >= 0; i--) {
                     addView(addWordInsideLinearlayouts[i]);
                 }
             }
         } else {
+            //切换为竖排
             if (addWordInsideLinearlayouts != null && addWordInsideLinearlayouts.length > 0) {
                 removeAllViews();
+
+                /**
+                 * 处理英文 竖排的时候英文效果体验不好
+                 */
+                List<TextView> textViews = addWordInsideLinearlayouts[0].getTextViews();
+                for(TextView textView:textViews){
+                    if(StringUtils.isEnglish(textView.getText().toString())){
+                        textView.setRotation(0);
+                    }
+                }
+
                 for (int i = 0; i < addWordInsideLinearlayouts.length; i++) {
                     addView(addWordInsideLinearlayouts[i]);
                 }

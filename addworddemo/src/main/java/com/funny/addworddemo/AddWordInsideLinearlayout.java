@@ -2,9 +2,13 @@ package com.funny.addworddemo;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by yue on 2016/4/13.
@@ -14,12 +18,14 @@ public class AddWordInsideLinearlayout extends LinearLayout {
     private Context context;
     private int color;
     private int size;
+    private List<TextView> textViews;
 
     public AddWordInsideLinearlayout(Context context) {
         super(context);
         setTextViewOrientation(VERTICAL);
         this.context = context;
         this.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        textViews = new ArrayList<TextView>();
     }
 
     public AddWordInsideLinearlayout(Context context, AttributeSet attrs) {
@@ -27,6 +33,7 @@ public class AddWordInsideLinearlayout extends LinearLayout {
         setTextViewOrientation(VERTICAL);
         this.context = context;
         this.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        textViews = new ArrayList<TextView>();
     }
 
     public void setTextViewOrientation(int orientation) {
@@ -49,12 +56,22 @@ public class AddWordInsideLinearlayout extends LinearLayout {
                     myText.setTextSize(size);
                 }
                 myText.setText(text.substring(i, i + 1));
+                textViews.add(myText);
                 addView(myText);
             }
         }
 
     }
-/*
+
+    public List<TextView> getTextViews() {
+        return textViews;
+    }
+
+    public void setTextViews(List<TextView> textViews) {
+        this.textViews = textViews;
+    }
+
+    /*
 
     public void setMyGravity(int gravity){
         setGravity(gravity);
