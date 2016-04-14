@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.funny.addworddemo.TextVerticalActivity">
 
-    <com.funny.addworddemo.VerticalTextView
+    <com.funny.addworddemo.AddWordOutsideLinearLayout
         android:id="@+id/verticalTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,8 +49,9 @@
 
     <LinearLayout
         android:id="@+id/linear"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true">
 
         <Button

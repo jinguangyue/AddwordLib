@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initData() {
-        text.setText("哈哈哈哈\n哈哈哈啊哈哈哈");
+        text.setText("靳广越\n靳广越靳广越\n我要飞");
         text.setTextSize(30);
         text.setRotation(90);
     }

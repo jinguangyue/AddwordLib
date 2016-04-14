@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 
 public class TextVerticalActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private VerticalTextView verticalTextView;
+    private AddWordOutsideLinearLayout addWordOutsideLinearLayout;
     private EditText edit_text;
 
     @Override
@@ -23,18 +23,20 @@ public class TextVerticalActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void initView() {
-        verticalTextView = (VerticalTextView)findViewById(R.id.verticalTextView);
-        verticalTextView.setTextColor(Color.BLACK);
-        verticalTextView.setTextSize(30);
-        verticalTextView.setTextViewOrientation(LinearLayout.HORIZONTAL);
-        verticalTextView.setText("我就是\n觉得是一个一个的吧");
+        addWordOutsideLinearLayout = (AddWordOutsideLinearLayout) findViewById(R.id.verticalTextView);
+        addWordOutsideLinearLayout.setTextColor(Color.BLACK);
+        addWordOutsideLinearLayout.setTextSize(30);
+        addWordOutsideLinearLayout.setTextViewOrientation(LinearLayout.VERTICAL);
+        addWordOutsideLinearLayout.setText("靳广越\n" +
+                "靳广越靳广越\n" +
+                "我要飞");
 
         findViewById(R.id.hengButton).setOnClickListener(this);
         findViewById(R.id.shuButton).setOnClickListener(this);
         findViewById(R.id.zuoduiqi).setOnClickListener(this);
         findViewById(R.id.juzhong).setOnClickListener(this);
         findViewById(R.id.youduiqi).setOnClickListener(this);
-        edit_text = (EditText)findViewById(R.id.edit_text);
+        edit_text = (EditText) findViewById(R.id.edit_text);
         edit_text.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -44,7 +46,7 @@ public class TextVerticalActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String str = s.toString();
-                verticalTextView.setText(str);
+                addWordOutsideLinearLayout.setText(str);
             }
 
             @Override
@@ -56,25 +58,34 @@ public class TextVerticalActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.hengButton:
-                verticalTextView.setTextViewOrientation(LinearLayout.VERTICAL);
+                addWordOutsideLinearLayout.setTextViewOrientation(LinearLayout.VERTICAL);
                 break;
 
             case R.id.shuButton:
-                verticalTextView.setTextViewOrientation(LinearLayout.HORIZONTAL);
+                addWordOutsideLinearLayout.setTextViewOrientation(LinearLayout.HORIZONTAL);
                 break;
 
             case R.id.zuoduiqi:
-                verticalTextView.setGravity(Gravity.START);
+                if (addWordOutsideLinearLayout.getOrientation() == LinearLayout.HORIZONTAL) {
+                    addWordOutsideLinearLayout.setMyGravity(Gravity.TOP);
+                } else {
+                    addWordOutsideLinearLayout.setMyGravity(Gravity.LEFT);
+                }
+
                 break;
 
             case R.id.juzhong:
-                verticalTextView.setGravity(Gravity.CENTER);
+                addWordOutsideLinearLayout.setMyGravity(Gravity.CENTER);
                 break;
 
             case R.id.youduiqi:
-                verticalTextView.setGravity(Gravity.END);
+                if (addWordOutsideLinearLayout.getOrientation() == LinearLayout.HORIZONTAL) {
+                    addWordOutsideLinearLayout.setMyGravity(Gravity.BOTTOM);
+                } else {
+                    addWordOutsideLinearLayout.setMyGravity(Gravity.RIGHT);
+                }
                 break;
         }
     }

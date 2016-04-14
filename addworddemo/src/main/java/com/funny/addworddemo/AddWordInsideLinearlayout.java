@@ -9,20 +9,20 @@ import android.widget.TextView;
 /**
  * Created by yue on 2016/4/13.
  */
-public class CustomLinearlayout extends LinearLayout {
+public class AddWordInsideLinearlayout extends LinearLayout {
     private String text;
     private Context context;
     private int color;
     private int size;
 
-    public CustomLinearlayout(Context context) {
+    public AddWordInsideLinearlayout(Context context) {
         super(context);
         setTextViewOrientation(VERTICAL);
         this.context = context;
         this.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
-    public CustomLinearlayout(Context context, AttributeSet attrs) {
+    public AddWordInsideLinearlayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         setTextViewOrientation(VERTICAL);
         this.context = context;
