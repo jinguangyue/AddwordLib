@@ -23,6 +23,8 @@ public class AddWordOutsideLinearLayout extends LinearLayout {
     private List<Integer> ns;
     private int orientation;
     private int gravity;
+    private int hengWidth;
+    private int hengHeight;
 
     public AddWordOutsideLinearLayout(Context context) {
         super(context);
@@ -54,12 +56,24 @@ public class AddWordOutsideLinearLayout extends LinearLayout {
                 List<TextView> textViews = addWordInsideLinearlayouts[0].getTextViews();
                 for(TextView textView:textViews){
                     if(StringUtils.isEnglish(textView.getText().toString())){
+                        hengWidth = textView.getWidth();
+                        hengHeight = textView.getHeight();
                         textView.setRotation(90);
+                        textView.setWidth(hengHeight);
+                        textView.setHeight(hengHeight);
+                        /*textView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT));*/
                     }
                 }
 
                 for (int i = addWordInsideLinearlayouts.length - 1; i >= 0; i--) {
                     addView(addWordInsideLinearlayouts[i]);
+                    /*addWordInsideLinearlayouts[i].setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT));
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                            RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    params.leftMargin = 100;
+                    this.setLayoutParams(params);*/
                 }
             }
         } else {
@@ -74,12 +88,25 @@ public class AddWordOutsideLinearLayout extends LinearLayout {
                 for(TextView textView:textViews){
                     if(StringUtils.isEnglish(textView.getText().toString())){
                         textView.setRotation(0);
+                        textView.setWidth(hengWidth);
+                        textView.setHeight(hengHeight);
+
+                        /*textView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                                ViewGroup.LayoutParams.WRAP_CONTENT));*/
                     }
                 }
 
                 for (int i = 0; i < addWordInsideLinearlayouts.length; i++) {
                     addView(addWordInsideLinearlayouts[i]);
+                   /* addWordInsideLinearlayouts[i].setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT));
+
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
+                            RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    params.leftMargin = 100;
+                    this.setLayoutParams(params);*/
                 }
+
             }
         }
 

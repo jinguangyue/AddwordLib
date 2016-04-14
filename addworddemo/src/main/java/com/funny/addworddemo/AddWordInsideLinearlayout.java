@@ -3,7 +3,6 @@ package com.funny.addworddemo;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,7 +23,7 @@ public class AddWordInsideLinearlayout extends LinearLayout {
         super(context);
         setTextViewOrientation(VERTICAL);
         this.context = context;
-        this.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        this.setLayoutParams(new LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         textViews = new ArrayList<TextView>();
     }
 
@@ -32,7 +31,7 @@ public class AddWordInsideLinearlayout extends LinearLayout {
         super(context, attrs);
         setTextViewOrientation(VERTICAL);
         this.context = context;
-        this.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        this.setLayoutParams(new LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         textViews = new ArrayList<TextView>();
     }
 
@@ -58,6 +57,7 @@ public class AddWordInsideLinearlayout extends LinearLayout {
                 myText.setText(text.substring(i, i + 1));
                 textViews.add(myText);
                 addView(myText);
+                myText.setGravity(Gravity.CENTER);
             }
         }
 

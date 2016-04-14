@@ -8,4 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <declare-styleable name="RotateTextView">
+        <attr name="degree" format="dimension" />
+    </declare-styleable>
+
 </resources>
