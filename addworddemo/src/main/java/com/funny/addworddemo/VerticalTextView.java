@@ -2,6 +2,7 @@ package com.funny.addworddemo;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
@@ -68,7 +69,7 @@ public class VerticalTextView extends LinearLayout {
         removeAllViews();
         //存储换行字符的位置
         ns = new ArrayList<Integer>();
-        if (text != null) {
+        if (text != null && !text.equals("")) {
             //转成char[] 可遍历
             char[] chars = text.toCharArray();
             //后面要截取从0到换行符的字符添加到LinearLayout中 所以要加0
@@ -80,16 +81,18 @@ public class VerticalTextView extends LinearLayout {
                 }
             }
             //最后加到字符末尾 注意是length()-1
-            ns.add(text.length()-1);
+            ns.add(text.length());
             //我们不能确定有多少换行符， 那也不能确定有多少个Linearlayout 所以这里根据换行符个数来写
             customLinearlayouts = new CustomLinearlayout[ns.size()-1];
-
+            Log.e("yue","ns.size()===" + ns.size());
             for(int i=0; i<ns.size()-1; i++){
                 customLinearlayouts[i] = new CustomLinearlayout(context);
                 customLinearlayouts[i].setTextColor(color);
                 customLinearlayouts[i].setTextSize(size);
                 //将每个字符设置到一个Textview上并且添加到customLinearlayouts中
-                customLinearlayouts[i].setText((text.substring(ns.get(i), ns.get(i+1)).trim()));
+                String temp = text.substring(ns.get(i), ns.get(i+1)).trim();
+                Log.e("yue", temp);
+                customLinearlayouts[i].setText(temp);
                 //最后将所有的customLinearlayouts 加入到最大的 Linearlayout中
                 addView(customLinearlayouts[i]);
             }

@@ -44,9 +44,7 @@ public class TextVerticalActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String str = s.toString();
-                if(str != null && !str.equals("")){
-                    verticalTextView.setText(s.toString());
-                }
+                verticalTextView.setText(str);
             }
 
             @Override
