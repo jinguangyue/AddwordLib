@@ -7,3 +7,5 @@ TextView加文字横竖排切换(字体方向不变)
 
 具体讲解可以点击我的博客：
 http://blog.csdn.net/CoderYue/article/details/51149936
+简书地址：
+http://www.jianshu.com/p/34e341f5efae
