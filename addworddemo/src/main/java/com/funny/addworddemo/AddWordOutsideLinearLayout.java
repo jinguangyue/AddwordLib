@@ -233,12 +233,24 @@ public class AddWordOutsideLinearLayout extends LinearLayout {
 
             // 如果竖排时候输入了数字或者字母 要旋转
             if (orientation == LinearLayout.HORIZONTAL) {
-                for (AddWordInsideLinearlayout a : addWordInsideLinearlayouts) {
-                    for (final TextView textView : a.getTextViews()) {
+                if(addWordInsideLinearlayouts != null && addWordInsideLinearlayouts.length > 0){
+
+                }
+                //如果是字母
+                    for (TextView textView : addWordInsideLinearlayouts[0].getTextViews()) {
                         if (StringUtils.isEnglish(textView.getText().toString())) {
                             textView.setRotation(90);
                             textView.setLayoutParams(new LayoutParams(MyApplication.getInstance().getTextHeight(),
                                     ViewGroup.LayoutParams.WRAP_CONTENT));
+                        }
+                    }
+
+                //如果是数字
+                for (TextView textView : addWordInsideLinearlayouts[0].getTextViews()) {
+                    for (int i = 0; i < smallNumbers.length; i++) {
+                        if (smallNumbers[i].equals(textView.getText().toString())) {
+                            textView.setText(bigNumbers[i]);
+                            numberViews.add(textView);
                         }
                     }
                 }
