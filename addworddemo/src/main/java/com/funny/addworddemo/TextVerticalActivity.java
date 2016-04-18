@@ -1,8 +1,8 @@
 package com.funny.addworddemo;
 
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -26,6 +26,7 @@ public class TextVerticalActivity extends AppCompatActivity implements View.OnCl
         addWordOutsideLinearLayout = (AddWordOutsideLinearLayout) findViewById(R.id.verticalTextView);
         addWordOutsideLinearLayout.setTextColor(Color.BLACK);
         addWordOutsideLinearLayout.setTextSize(30);
+        //这里的LinearLayout.VERTICAL实际上是每一行是竖排 但是里面的每一个字都是横排 所以它标识的其实是横向的 请结合效果理解一下 实在没看明白可以留言给我
         addWordOutsideLinearLayout.setTextViewOrientation(LinearLayout.VERTICAL);
         addWordOutsideLinearLayout.setText("靳广越\n" +
                 "靳广越靳广越\n" +

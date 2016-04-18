@@ -2,6 +2,7 @@ package com.funny.addworddemo;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ public class AddWordInsideLinearlayout extends LinearLayout {
     private int color;
     private int size;
     private List<TextView> textViews;
+    private TextView myText;
 
     public AddWordInsideLinearlayout(Context context) {
         super(context);
@@ -46,21 +48,29 @@ public class AddWordInsideLinearlayout extends LinearLayout {
 
     private void addText() {
         removeAllViews();
+        textViews.clear();
         if (text != null) {
             char[] chars = text.toCharArray();
             for (int i = 0; i < chars.length; i++) {
-                TextView myText = new TextView(context);
+                myText = new TextView(context);
                 myText.setTextColor(color);
                 if (size > 0) {
                     myText.setTextSize(size);
                 }
                 myText.setText(text.substring(i, i + 1));
+                myText.setIncludeFontPadding(false);
                 textViews.add(myText);
-                addView(myText);
                 myText.setGravity(Gravity.CENTER);
+                addView(myText);
             }
         }
+    }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasWindowFocus) {
+        super.onWindowFocusChanged(hasWindowFocus);
+        MyApplication.getInstance().setTextHeight(myText.getHeight());
+        Log.e("yue", "myText.getHeight()" + myText.getHeight());
     }
 
     public List<TextView> getTextViews() {
@@ -71,14 +81,6 @@ public class AddWordInsideLinearlayout extends LinearLayout {
         this.textViews = textViews;
     }
 
-    /*
-
-    public void setMyGravity(int gravity){
-        setGravity(gravity);
-        this.requestLayout();
-    }
-*/
-
     public void setTextColor(int color) {
         this.color = color;
     }
@@ -87,4 +89,11 @@ public class AddWordInsideLinearlayout extends LinearLayout {
         this.size = size;
     }
 
+    public int getSize() {
+        return size;
+    }
+
+    public int getColor() {
+        return color;
+    }
 }
