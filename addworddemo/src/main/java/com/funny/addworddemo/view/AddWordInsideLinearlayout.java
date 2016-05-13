@@ -1,11 +1,17 @@
-package com.funny.addworddemo;
+package com.funny.addworddemo.view;
 
 import android.content.Context;
+import android.os.Build;
+import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.funny.addworddemo.AppConst;
+import com.funny.addworddemo.MyApplication;
+import com.funny.addworddemo.util.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +25,13 @@ public class AddWordInsideLinearlayout extends LinearLayout {
     private int color;
     private int size;
     private List<TextView> textViews;
-    private TextView myText;
+    private AddWordTextView myText;
 
     public AddWordInsideLinearlayout(Context context) {
         super(context);
         setTextViewOrientation(VERTICAL);
         this.context = context;
-        this.setLayoutParams(new LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        this.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         textViews = new ArrayList<TextView>();
     }
 
@@ -33,7 +39,7 @@ public class AddWordInsideLinearlayout extends LinearLayout {
         super(context, attrs);
         setTextViewOrientation(VERTICAL);
         this.context = context;
-        this.setLayoutParams(new LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        this.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         textViews = new ArrayList<TextView>();
     }
 
@@ -49,10 +55,11 @@ public class AddWordInsideLinearlayout extends LinearLayout {
     private void addText() {
         removeAllViews();
         textViews.clear();
-        if (text != null) {
+
+        if (!TextUtils.isEmpty(text)) {
             char[] chars = text.toCharArray();
             for (int i = 0; i < chars.length; i++) {
-                myText = new TextView(context);
+                myText = new AddWordTextView(context);
                 myText.setTextColor(color);
                 if (size > 0) {
                     myText.setTextSize(size);
@@ -63,15 +70,34 @@ public class AddWordInsideLinearlayout extends LinearLayout {
                 myText.setGravity(Gravity.CENTER);
                 addView(myText);
             }
+
+            myText.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        myText.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    }
+                    /*int height = 0;
+                    if(height < myText.getHeight()){
+                        height = myText.getHeight();
+                    }*/
+                    if(myText.getHeight() != 0){
+                        AppConst.textHeight = myText.getHeight();
+                        LogUtils.i("AppConst.textHeight===" + AppConst.textHeight);
+                    }
+                    MyApplication.getInstance().setTextHeight(myText.getHeight());
+//                    MyApplication.getInstance().setTextWidth(60);
+                }
+            });
         }
     }
 
-    @Override
+   /* @Override
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         super.onWindowFocusChanged(hasWindowFocus);
         MyApplication.getInstance().setTextHeight(myText.getHeight());
-        Log.e("yue", "myText.getHeight()" + myText.getHeight());
-    }
+        Log.e("yue", "myText.getHeight()onWindowFocusChanged" + myText.getHeight());
+    }*/
 
     public List<TextView> getTextViews() {
         return textViews;

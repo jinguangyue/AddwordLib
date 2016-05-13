@@ -1,4 +1,4 @@
-package com.funny.addworddemo;
+package com.funny.addworddemo.util;
 
 /**
  * Created by yue on 2016/4/14.

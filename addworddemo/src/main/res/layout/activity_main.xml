@@ -11,7 +11,7 @@
     android:background="@color/colorPrimary"
     tools:context="com.funny.addworddemo.MainActivity">
 
-    <com.funny.addworddemo.MyTextView
+    <com.funny.addworddemo.view.MyTextView
         android:id="@+id/text"
         android:layout_marginTop="30dp"
         android:layout_gravity="center_horizontal"
