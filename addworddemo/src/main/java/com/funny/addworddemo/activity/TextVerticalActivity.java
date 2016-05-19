@@ -177,11 +177,13 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
      * @param addWordFrame
      */
     private void adjustLocation(Matrix matrix, AddWordFrame addWordFrame){
+        //将有缩放平移和旋转相关值的矩阵赋值到f中
         float[] f = new float[9];
         matrix.getValues(f);
         int bWidth = 0;
         int bHeight = 0;
 
+        //取到view的宽高
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             Rect rect = new Rect();
             addWordFrame.getLayout().getGlobalVisibleRect(rect);
@@ -192,6 +194,7 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
             bHeight = addWordHeight;
         }
 
+        //如果想知道这里这样设置值的具体算法那必须要了解9*9的矩阵每个坐标的含义了 有兴趣的可以查阅一下 资料很多
         // 原图左上角
         float x1 = f[2];
         float y1 = f[5];
@@ -209,6 +212,8 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
         float y4 = f[3] * bWidth + f[4] * bHeight + f[5];
         addWordFrame.rightBottom.set(x4, y4);
 
+
+        //这里一定要这是图片的最左 最右 最上 和 最下的位置 用来判断是不是点击到了当前的view
         // 最左边x
         float minX = 0;
         // 最右边x
@@ -228,6 +233,7 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
         addFrameHolders.get(AddWordSelectImageCount).getState().setRight(maxX);
         addFrameHolders.get(AddWordSelectImageCount).getState().setBottom(maxY);
 
+        //将当前的view设置上矩阵对象
         addFrameHolders.get(AddWordSelectImageCount).getAddWordFrame().setMatrix(matrix);
     }
 
@@ -250,9 +256,10 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
         addWordWidth = addWordBitmap.getWidth();
         addWordHeight = addWordBitmap.getHeight();
 
+        //这里是想平移到屏幕比较好看的位置
         addWordx1 = width/2 - addWordWidth /2;
         addWordy1 = height/3;
-
+        //原图左上角
         addWordFrame.leftTop.set(addWordx1, addWordy1);
         // 原图右上角
         addWordFrame.rightTop.set(addWordx1 + addWordWidth, addWordy1);
@@ -265,6 +272,7 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
         addWordMatrix.postTranslate(addWordx1, addWordy1);
         addWordFrame.setMatrix(addWordMatrix);
 
+        //这个类里面主要是存储当前view的区域
         AddWordFrameState addWordFrameState = new AddWordFrameState();
         addWordFrameState.setLeft(addWordx1);
         addWordFrameState.setTop(addWordy1);
@@ -281,6 +289,7 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
     }
 
     private void selectMyFrame(float x, float y) {
+        //选取消所有的选中 后面只有点击到的才是选中状态
         for (int i = (addFrameHolders.size() - 1); i >= 0; i--) {
             AddFrameHolder addFrameHolder = addFrameHolders.get(i);
             if (addFrameHolder.getAddWordFrame().isSelect()) {
@@ -291,14 +300,17 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
 
         for (int i = (addFrameHolders.size() - 1); i >= 0; i--) {
             AddFrameHolder addFrameHolder = addFrameHolders.get(i);
+            //创建一个矩形区域 这里的getLeft getTop等等的意思是当前view的最左边 最上边 最右边和最下边 只有点击到这个区域里面才是选中
             Rect rect = new Rect((int)addFrameHolder.getState().getLeft(),
                     (int)addFrameHolder.getState().getTop(),
                     (int)addFrameHolder.getState().getRight(),
                     (int)addFrameHolder.getState().getBottom());
 
             if (rect.contains((int) x, (int) y)) {
+                //如果选中 当前view图层提到最上面
                 addFrameHolder.getAddWordFrame().bringToFront();
                 addFrameHolder.getAddWordFrame().setSelect(true);
+                //记录选中了哪个
                 AddWordSelectImageCount = i;
                 LogUtils.e("选中");
                 break;
@@ -309,11 +321,17 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
     }
 
     class AddWordMyOntouch implements View.OnTouchListener {
+        //俩个手指间的距离
         private float baseValue = 0;
+        //原来的角度
         private float oldRotation;
+        //旋转和缩放的中点
         private PointF midP;
+        //点中的要进行缩放的点与图片中点的距离
         private float imgLengHalf;
+        //保存刚开始按下的点
         private PointF startPoinF = new PointF();
+
         private int NONE = 0; // 无
         private int DRAG = 1; // 移动
         private int ZOOM = 2; // 变换
@@ -324,28 +342,38 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
             float event_x = (int) event.getRawX();
             float event_y = (int) event.getRawY() - StatusBarHeightUtil.getStatusBarHeight(context);
 
+            //这里算是一个点击区域值 点中删除或者点中变换的100 * 100 的矩形区域 用这个区域来判断是否点中
             int tempInt = 100;
             int addint = 100;
 
             switch (eventaction & MotionEvent.ACTION_MASK) {
                 case MotionEvent.ACTION_DOWN: // touch down so check if the
+
+                    baseValue = 0;
+
                     startPoinF.set(event_x, event_y);// 保存刚开始按下的坐标
+
+                    //因为可能要添加多个这样的view 所以要按选中了哪个
                     selectMyFrame(event_x, event_y);
 
+                    //如果有选中状态的额view
                     if (AddWordSelectImageCount != -1) {
                         addWordFrame = addFrameHolders.get(AddWordSelectImageCount).getAddWordFrame();
                         addWordMatrix = addFrameHolders.get(AddWordSelectImageCount).getAddWordFrame().getMatrix();
                         addWordSavedMatrix.set(addWordMatrix);
                         AddWordMode = DRAG;
 
+                        //构造一个旋转按钮的矩形区域
                         Rect moveRect = new Rect((int) addWordFrame.rightBottom.x - tempInt,
                                 (int) addWordFrame.rightBottom.y - tempInt, (int) addWordFrame.rightBottom.x + addint,
                                 (int) addWordFrame.rightBottom.y + addint);
+                        //删除按钮的矩形区域
                         Rect deleteRect = new Rect((int) addWordFrame.leftTop.x - tempInt,
                                 (int) addWordFrame.leftTop.y - tempInt, (int) addWordFrame.leftTop.x + addint,
                                 (int) addWordFrame.leftTop.y + addint);
 
 
+                        //如果点中了变换
                         if(moveRect.contains((int)event_x, (int)event_y)){
                             LogUtils.e("点中了变换");
                             // 点中了变换
@@ -368,6 +396,7 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
                     break;
 
                 case MotionEvent.ACTION_MOVE: // touch drag with the ball
+                    //如果是双指点中
                     if (event.getPointerCount() == 2) {
                         if (AddWordSelectImageCount != -1) {
                             AddWordMode = NONE;
@@ -375,10 +404,12 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
                             float y = event.getY(0) - event.getY(1);
                             float value = (float) Math.sqrt(x * x + y * y);// 计算两点的距离
 
+                            //旋转的角度
                             float newRotation = rotationforTwo(event) - oldRotation;
                             if (baseValue == 0) {
                                 baseValue = value;
                             } else {
+                                //旋转到一定角度再执行 不能刚点击就执行旋转或者缩放
                                 if (value - baseValue >= 10 || value - baseValue <= -10) {
                                     float scale = value / baseValue;// 当前两点间的距离除以手指落下时两点间的距离就是需要缩放的比例。
                                     addWordMatrix.set(addWordSavedMatrix);
@@ -388,6 +419,7 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
                             }
                         }
                     } else if (event.getPointerCount() == 1) {
+                        //单指点击
                         if (AddWordSelectImageCount != -1) {
                             if (AddWordMode == DRAG) {
                                 if (event_x < MyApplication.getInstance().getScreenWidth() - 50 && event_x > 50
@@ -400,6 +432,7 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
                                     addWordMatrix.postTranslate(translateX, translateY);
                                 }
                             } else if (AddWordMode == ZOOM) {
+                                //点击到了缩放旋转按钮
                                 PointF movePoin = new PointF(event_x, event_y);
 
                                 float moveLeng = spacing(startPoinF, movePoin);
@@ -418,6 +451,7 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
                     }
 
                     if (AddWordSelectImageCount != -1) {
+                        //最后在action_move 执行完前设置好矩阵 设置view的位置
                         addWordFrame = addFrameHolders.get(AddWordSelectImageCount).getAddWordFrame();
                         adjustLocation(addWordMatrix, addWordFrame);
                     }

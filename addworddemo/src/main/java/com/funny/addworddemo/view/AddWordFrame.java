@@ -164,43 +164,8 @@ public class AddWordFrame extends FrameLayout {
         super.onDraw(canvas);
         this.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         canvas.concat(matrix);
+
         this.setLayerType(View.LAYER_TYPE_NONE, null);
-
-        /*if (isSelect) {
-            paint = new Paint();
-            paint.setAntiAlias(true);
-            paint.setColor(Color.parseColor("#F77DA3"));
-            paint.setStrokeWidth(5f);
-
-            if (bitDelete == null) {
-                bitDelete = BitmapFactory.decodeResource(getResources(),
-                        R.drawable.btn_sticker_cancel_n);
-            }
-            if (bitMove == null) {
-                bitMove = BitmapFactory.decodeResource(getResources(),
-                        R.drawable.btn_sticker_word_turn_n);
-            }
-
-            bdeleteWidth = bitDelete.getHeight() / 2;
-
-            if (isHeng) {
-                canvas.drawLine(0, 0, mImageWidth, 0, paint);
-                canvas.drawLine(0, mImageHeight, mImageWidth, mImageHeight, paint);
-                canvas.drawLine(0, 0, 0, mImageHeight, paint);
-                canvas.drawLine(mImageWidth, 0, mImageWidth, mImageHeight, paint);
-
-                canvas.drawBitmap(bitDelete, 0 - bdeleteWidth, 0 - bdeleteWidth, paint);
-                canvas.drawBitmap(bitMove, mImageWidth - bdeleteWidth, mImageHeight - bdeleteWidth, paint);
-            } else {
-                canvas.drawLine(0, 0, mImageHeight, 0, paint);
-                canvas.drawLine(0, mImageWidth, mImageHeight, mImageWidth, paint);
-                canvas.drawLine(0, 0, 0, mImageWidth, paint);
-                canvas.drawLine(mImageHeight, 0, mImageHeight, mImageWidth, paint);
-
-                canvas.drawBitmap(bitDelete, 0 - bdeleteWidth, 0 - bdeleteWidth, paint);
-                canvas.drawBitmap(bitMove, mImageHeight - bdeleteWidth, mImageWidth - bdeleteWidth, paint);
-            }
-        }*/
     }
 
     @Override
