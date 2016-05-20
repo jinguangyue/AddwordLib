@@ -2,6 +2,7 @@ package com.funny.addworddemo.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -54,10 +55,12 @@ public class AddWordFrame extends FrameLayout {
     private int bdeleteWidth;
     private boolean isHeng = true;
     private String allText;
+    private int xiao;
 
     public AddWordFrame(Context context) {
         super(context);
         this.context = context;
+        initPaint();
         addWordView();
         setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         setWillNotDraw(false);
@@ -66,6 +69,7 @@ public class AddWordFrame extends FrameLayout {
     public AddWordFrame(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
+        initPaint();
         addWordView();
         setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         setWillNotDraw(false);
@@ -74,6 +78,7 @@ public class AddWordFrame extends FrameLayout {
     public AddWordFrame(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
+        initPaint();
         addWordView();
         setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         setWillNotDraw(false);
@@ -93,7 +98,6 @@ public class AddWordFrame extends FrameLayout {
 
     private void addWordView() {
         layout = new AddWordOutsideLinearLayout(context);
-
         layout.setTextColor(Color.BLACK);
         layout.setTextSize(30);
         //这里的LinearLayout.VERTICAL实际上是每一行是竖排 但是里面的每一个字都是横排 所以它标识的其实是横向的 请结合效果理解一下 实在没看明白可以留言给我
@@ -112,7 +116,7 @@ public class AddWordFrame extends FrameLayout {
         layout.setmImageHeight(mImageHeight);
 
         layout.setSelect(true);
-        layout.setBackgroundResource(R.drawable.img_font_frame);
+//        layout.setBackgroundResource(R.drawable.img_font_frame);
         addView(layout);
     }
 
@@ -159,13 +163,51 @@ public class AddWordFrame extends FrameLayout {
         invalidate();
     }
 
+    private void initPaint() {
+        paint = new Paint();
+        paint.setAntiAlias(true);
+
+        paint.setColor(Color.WHITE);
+        paint.setStrokeWidth(5f);
+
+        if (bitDelete == null) {
+            bitDelete = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.btn_sticker_cancel_n);
+        }
+        if (bitMove == null) {
+            bitMove = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.btn_sticker_turn_n);
+        }
+/*
+
+        if (bgBitmap == null) {
+            bgBitmap = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.img_font_frame);
+        }
+*/
+
+        xiao = bitDelete.getHeight()/2;
+//         mSetfil = new PaintFlagsDrawFilter(0, Paint.FILTER_BITMAP_FLAG);
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        setVisibility(INVISIBLE);
+
+        if (isSelect) {
+            canvas.drawLine(leftTop.x, leftTop.y, rightTop.x, rightTop.y, paint);
+            canvas.drawLine(leftBottom.x, leftBottom.y, rightBottom.x,rightBottom.y, paint);
+            canvas.drawLine(leftTop.x, leftTop.y, leftBottom.x, leftBottom.y,paint);
+            canvas.drawLine(rightTop.x, rightTop.y, rightBottom.x,rightBottom.y, paint);
+            canvas.drawBitmap(bitDelete, leftTop.x-xiao, leftTop.y-xiao, paint);
+            canvas.drawBitmap(bitMove, rightBottom.x-xiao, rightBottom.y-xiao, paint);
+        }
+
         this.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         canvas.concat(matrix);
-
         this.setLayerType(View.LAYER_TYPE_NONE, null);
+        setVisibility(VISIBLE);
     }
 
     @Override
@@ -180,11 +222,11 @@ public class AddWordFrame extends FrameLayout {
     public void setSelect(boolean select) {
         isSelect = select;
         if(select == false){
-            this.getLayout().setBackgroundResource(0);
+//            this.getLayout().setBackgroundResource(0);
             /*Intent intent = new Intent(AppConstant.ACTION.POPVIEWADDWORD_CLOSE);
             context.sendBroadcast(intent);*/
         }else{
-            this.getLayout().setBackgroundResource(R.drawable.img_font_frame);
+//            this.getLayout().setBackgroundResource(R.drawable.img_font_frame);
             /*Intent intent = new Intent(AppConstant.ACTION.POPVIEWADDWORD_SHOW);
             context.sendBroadcast(intent);*/
         }

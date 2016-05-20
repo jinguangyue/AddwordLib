@@ -8,7 +8,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen">
+        android:theme="@android:style/Theme.Holo.Light.NoActionBar">
         <activity android:name=".activity.TextVerticalActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

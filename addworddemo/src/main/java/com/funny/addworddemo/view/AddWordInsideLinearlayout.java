@@ -65,7 +65,7 @@ public class AddWordInsideLinearlayout extends LinearLayout {
                     myText.setTextSize(size);
                 }
                 myText.setText(text.substring(i, i + 1));
-                myText.setIncludeFontPadding(false);
+//                myText.setIncludeFontPadding(false);
                 textViews.add(myText);
                 myText.setGravity(Gravity.CENTER);
                 addView(myText);

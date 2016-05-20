@@ -107,7 +107,6 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
                 public void layout(int width, int height) {
                     addWordMatrix = addFrameHolders.get(AddWordSelectImageCount).getAddWordFrame().getMatrix();
                     addWordSavedMatrix.set(addWordMatrix);
-                    addWordMatrix.postTranslate(1,1);
                     adjustLocation(addWordMatrix, addFrameHolders.get(AddWordSelectImageCount).getAddWordFrame());
                 }
             });
@@ -335,6 +334,7 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
         private int NONE = 0; // 无
         private int DRAG = 1; // 移动
         private int ZOOM = 2; // 变换
+        private int DOUBLE_ZOOM = 3;
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -343,8 +343,8 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
             float event_y = (int) event.getRawY() - StatusBarHeightUtil.getStatusBarHeight(context);
 
             //这里算是一个点击区域值 点中删除或者点中变换的100 * 100 的矩形区域 用这个区域来判断是否点中
-            int tempInt = 100;
-            int addint = 100;
+            int tempInt = 50;
+            int addint = 50;
 
             switch (eventaction & MotionEvent.ACTION_MASK) {
                 case MotionEvent.ACTION_DOWN: // touch down so check if the
@@ -390,16 +390,19 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
                     break;
 
                 case MotionEvent.ACTION_POINTER_DOWN:
-                    midP = midPoint(addWordFrame.leftTop, addWordFrame.rightBottom);
-                    imgLengHalf = spacing(midP, addWordFrame.rightBottom);
-                    oldRotation = rotationforTwo(event);
+                    AddWordMode = NONE;
+                    if(AddWordSelectImageCount != -1){
+                        midP = midPoint(addWordFrame.leftTop, addWordFrame.rightBottom);
+                        imgLengHalf = spacing(midP, addWordFrame.rightBottom);
+                        oldRotation = rotationforTwo(event);
+                    }
                     break;
 
                 case MotionEvent.ACTION_MOVE: // touch drag with the ball
                     //如果是双指点中
                     if (event.getPointerCount() == 2) {
                         if (AddWordSelectImageCount != -1) {
-                            AddWordMode = NONE;
+                            AddWordMode = DOUBLE_ZOOM;
                             float x = event.getX(0) - event.getX(1);
                             float y = event.getY(0) - event.getY(1);
                             float value = (float) Math.sqrt(x * x + y * y);// 计算两点的距离
@@ -410,7 +413,7 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
                                 baseValue = value;
                             } else {
                                 //旋转到一定角度再执行 不能刚点击就执行旋转或者缩放
-                                if (value - baseValue >= 10 || value - baseValue <= -10) {
+                                if (value - baseValue >= 15 || value - baseValue <= -15) {
                                     float scale = value / baseValue;// 当前两点间的距离除以手指落下时两点间的距离就是需要缩放的比例。
                                     addWordMatrix.set(addWordSavedMatrix);
                                     addWordMatrix.postScale(scale, scale, midP.x, midP.y);
@@ -450,10 +453,12 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
                         }
                     }
 
-                    if (AddWordSelectImageCount != -1) {
-                        //最后在action_move 执行完前设置好矩阵 设置view的位置
-                        addWordFrame = addFrameHolders.get(AddWordSelectImageCount).getAddWordFrame();
-                        adjustLocation(addWordMatrix, addWordFrame);
+                    if(AddWordMode != NONE){
+                        if (AddWordSelectImageCount != -1) {
+                            //最后在action_move 执行完前设置好矩阵 设置view的位置
+                            addWordFrame = addFrameHolders.get(AddWordSelectImageCount).getAddWordFrame();
+                            adjustLocation(addWordMatrix, addWordFrame);
+                        }
                     }
                     break;
 
@@ -469,7 +474,6 @@ public class TextVerticalActivity extends Activity implements View.OnClickListen
             return true;
         }
     }
-
 
     private void deleteMyFrame() {
         if (AddWordSelectImageCount != -1) {
