@@ -5,7 +5,7 @@ TextView加文字横竖排切换(字体方向不变)
 补充： 自定义view 可手势移动和旋转缩放 
 
 # 效果图
-![](https://raw.githubusercontent.com/jinguangyue/AddwordDemo/master/addworddemo/screenshots/textview%E6%A8%AA%E7%AB%96.gif)
+![](https://github.com/jinguangyue/AddwordLib/blob/master/AddwordLib/screenshots/textview%E6%A8%AA%E7%AB%96.gif)
 
 具体讲解可以点击我的博客：
 http://blog.csdn.net/CoderYue/article/details/51149936
