@@ -2,6 +2,8 @@
 TextView加文字横竖排切换(字体方向不变) 
 一个普通的Textview如果旋转的话字体方向肯定变了，这里我自定义了一个view来实现这个功能。
 
+补充： 自定义view 可手势移动和旋转缩放 
+
 # 效果图
 ![](https://raw.githubusercontent.com/jinguangyue/AddwordDemo/master/addworddemo/screenshots/textview%E6%A8%AA%E7%AB%96.gif)
 
