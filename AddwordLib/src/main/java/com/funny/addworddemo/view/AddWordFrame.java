@@ -98,7 +98,7 @@ public class AddWordFrame extends FrameLayout {
 
     private void addWordView() {
         layout = new AddWordOutsideLinearLayout(context);
-        layout.setTextColor(Color.BLACK);
+        layout.setTextColor(Color.WHITE);
         layout.setTextSize(30);
         //这里的LinearLayout.VERTICAL实际上是每一行是竖排 但是里面的每一个字都是横排 所以它标识的其实是横向的 请结合效果理解一下 实在没看明白可以留言给我
         layout.setTextViewOrientation(LinearLayout.VERTICAL);

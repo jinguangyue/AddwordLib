@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Black"
+    >
+
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
+    <EditText
+        android:id="@+id/edit_text"
+        android:layout_above="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:id="@+id/line1"
+        android:layout_above="@+id/linear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/zuoduiqi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="左对齐" />
+
+        <Button
+            android:id="@+id/juzhong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="居中对齐" />
+
+        <Button
+            android:id="@+id/youduiqi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="右对齐" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/hengButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="横向" />
+
+        <Button
+            android:id="@+id/shuButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="竖向" />
+
+        <Button
+            android:id="@+id/addView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="添加" />
+    </LinearLayout>
+</RelativeLayout>

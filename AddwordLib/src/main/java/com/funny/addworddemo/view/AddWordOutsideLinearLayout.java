@@ -16,7 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.funny.addworddemo.MyApplication;
+import com.funny.addworddemo.AppConst;
 import com.funny.addworddemo.R;
 import com.funny.addworddemo.util.LogUtils;
 import com.funny.addworddemo.util.StringUtils;
@@ -33,7 +33,7 @@ public class AddWordOutsideLinearLayout extends LinearLayout {
     private int mImageWidth;
     private String text;
     private Context context;
-    private int color;
+    private int color = Color.WHITE;
     private int size;
     private AddWordInsideLinearlayout[] addWordInsideLinearlayouts;
     private List<Integer> ns;
@@ -158,7 +158,7 @@ public class AddWordOutsideLinearLayout extends LinearLayout {
                             textView.setRotation(90);
                         }
 
-                        LayoutParams params = new LayoutParams(MyApplication.getInstance().getTextHeight(),
+                        LayoutParams params = new LayoutParams(AppConst.textHeight,
                                 ViewGroup.LayoutParams.WRAP_CONTENT);
                         if (a > 0) {
                             params.topMargin = ziMarginCount;
@@ -331,7 +331,7 @@ public class AddWordOutsideLinearLayout extends LinearLayout {
                         for (TextView textView : addWordInsideLinearlayouts[w].getTextViews()) {
                             if (StringUtils.isEnglish(textView.getText().toString())) {
                                 textView.setRotation(90);
-                                textView.setLayoutParams(new LayoutParams(MyApplication.getInstance().getTextHeight(),
+                                textView.setLayoutParams(new LayoutParams(AppConst.textHeight,
                                         ViewGroup.LayoutParams.WRAP_CONTENT));
                             }
                         }
@@ -598,7 +598,7 @@ public class AddWordOutsideLinearLayout extends LinearLayout {
         }
 
 
-        return MyApplication.getInstance().getTextHeight() * maxTextsize +
+        return AppConst.textHeight * maxTextsize +
                 (maxTextsize - 1) * ziMarginCount;
     }
 

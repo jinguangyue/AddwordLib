@@ -13,7 +13,7 @@ import android.widget.TextView;
  */
 public class AddWordTextView extends TextView {
     private int borderColor = Color.TRANSPARENT;
-    private int textColor = Color.BLACK;
+    private int textColor = Color.WHITE;
     private boolean isStroke = false;
 
     public AddWordTextView(Context context) {

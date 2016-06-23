@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.funny.addworddemo.AppConst;
-import com.funny.addworddemo.MyApplication;
 import com.funny.addworddemo.util.LogUtils;
 
 import java.util.ArrayList;
@@ -85,7 +84,7 @@ public class AddWordInsideLinearlayout extends LinearLayout {
                         AppConst.textHeight = myText.getHeight();
                         LogUtils.i("AppConst.textHeight===" + AppConst.textHeight);
                     }
-                    MyApplication.getInstance().setTextHeight(myText.getHeight());
+                    AppConst.textHeight = myText.getHeight();
 //                    MyApplication.getInstance().setTextWidth(60);
                 }
             });

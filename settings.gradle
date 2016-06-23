@@ -1,1 +1,1 @@
-include ':app', ':addworddemo'
+include ':addwordLib', ':demo'
