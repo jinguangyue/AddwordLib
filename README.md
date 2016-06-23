@@ -23,7 +23,7 @@ dependencies {
 }
 ```
 
-# The Renderings
+# Screenshots
 ![](https://github.com/jinguangyue/AddwordLib/blob/master/AddwordLib/screenshots/textview%E6%A8%AA%E7%AB%96.gif)
 
 
