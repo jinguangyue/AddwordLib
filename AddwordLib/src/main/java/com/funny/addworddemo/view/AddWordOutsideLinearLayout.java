@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PointF;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -39,16 +38,9 @@ public class AddWordOutsideLinearLayout extends LinearLayout {
     private List<Integer> ns;
     private int orientation;
     private int gravity;
-    private String[] bigNumbers = {"一", "二", "三", "四", "五", "六", "七", "八", "九"};
-    private String[] smallNumbers = {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
     private List<TextView> numberViews;
     private float alpha = 1;
 
-    //用于缩放
-    public PointF leftTop = new PointF();// 图片左上角的坐标
-    public PointF rightTop = new PointF();// 右上
-    public PointF leftBottom = new PointF();// 左下
-    public PointF rightBottom = new PointF();// 图片右下角的坐标
     private boolean isSelect = false;
     public Bitmap bitDelete = null;
     public Bitmap bitMove = null;
@@ -135,7 +127,6 @@ public class AddWordOutsideLinearLayout extends LinearLayout {
 
     public void setTextViewOrientation(int orientation) {
 
-        //此时外层切换为横向 那内部就要切换为竖向
         if (orientation == LinearLayout.HORIZONTAL) {
             if (addWordInsideLinearlayouts != null && addWordInsideLinearlayouts.length > 0) {
                 removeAllViews();
@@ -147,9 +138,6 @@ public class AddWordOutsideLinearLayout extends LinearLayout {
                     }
                     addWordInsideLinearlayouts[b].setLayoutParams(params1);
 
-                    /**
-                     * 处理英文 切换为横排时还原
-                     */
                     List<TextView> textViews = addWordInsideLinearlayouts[b].getTextViews();
 
                     for (int a = 0; a < textViews.size(); a++) {
@@ -166,12 +154,12 @@ public class AddWordOutsideLinearLayout extends LinearLayout {
                         }
                         textView.setLayoutParams(params);
 
-                        for (int i = 0; i < smallNumbers.length; i++) {
+                        /*for (int i = 0; i < smallNumbers.length; i++) {
                             if (smallNumbers[i].equals(textView.getText().toString())) {
                                 textView.setText(bigNumbers[i]);
                                 numberViews.add(textView);
                             }
-                        }
+                        }*/
                     }
                 }
 
@@ -181,7 +169,6 @@ public class AddWordOutsideLinearLayout extends LinearLayout {
 
             }
         } else {
-            //此时外层切换为竖向 那内部就要切换为横向
             if (addWordInsideLinearlayouts != null && addWordInsideLinearlayouts.length > 0) {
                 removeAllViews();
 
@@ -192,9 +179,6 @@ public class AddWordOutsideLinearLayout extends LinearLayout {
                     }
                     addWordInsideLinearlayouts[b].setLayoutParams(params1);
 
-                    /**
-                     * 处理英文 竖排的时候英文效果体验不好
-                     */
                     List<TextView> textViews = addWordInsideLinearlayouts[b].getTextViews();
 
                     for (int a = 0; a < textViews.size(); a++) {
@@ -211,11 +195,11 @@ public class AddWordOutsideLinearLayout extends LinearLayout {
                         }
                         textView.setLayoutParams(params);
 
-                        for (int i = 0; i < smallNumbers.length; i++) {
+                        /*for (int i = 0; i < smallNumbers.length; i++) {
                             if (bigNumbers[i].equals(textView.getText().toString())) {
                                 textView.setText(smallNumbers[i]);
                             }
-                        }
+                        }*/
                         numberViews.clear();
                     }
                 }
@@ -276,8 +260,6 @@ public class AddWordOutsideLinearLayout extends LinearLayout {
     }
 
     /**
-     * 提供给外部调用 设置文字
-     *
      * @param text
      */
     public void setText(String text) {
@@ -290,44 +272,33 @@ public class AddWordOutsideLinearLayout extends LinearLayout {
     }
 
     private void addText() {
-        //在添加字之前移除所有已经添加的View
         removeAllViews();
-        //存储换行字符的位置
 //        map.clear();
         ns = new ArrayList<Integer>();
         if (text != null && !text.equals("")) {
-            //转成char[] 可遍历
             char[] chars = text.toCharArray();
-            //后面要截取从0到换行符的字符添加到LinearLayout中 所以要加0
             ns.add(0);
             for (int i = 0; i < chars.length; i++) {
-                //当碰到换行符 add it
                 if (String.valueOf(text.charAt(i)).equals("\n")) {
                     ns.add(i);
                 }
             }
 
-            //最后加到字符末尾 注意是length()
             ns.add(text.length());
-            //我们不能确定有多少换行符， 那也不能确定有多少个Linearlayout 所以这里根据换行符个数来写
             addWordInsideLinearlayouts = new AddWordInsideLinearlayout[ns.size() - 1];
             for (int i = 0; i < ns.size() - 1; i++) {
                 addWordInsideLinearlayouts[i] = new AddWordInsideLinearlayout(context);
                 addWordInsideLinearlayouts[i].setTextColor(color);
                 addWordInsideLinearlayouts[i].setTextSize(size);
-                //将每个字符设置到一个Textview上并且添加到customLinearlayouts中
                 String temp = text.substring(ns.get(i), ns.get(i + 1)).trim();
                 addWordInsideLinearlayouts[i].setText(temp);
 
-                //最后将所有的customLinearlayouts 加入到最大的 Linearlayout中
 //                addView(addWordInsideLinearlayouts[i]);
             }
 
-            // 如果竖排时候输入了数字或者字母 要旋转
             if (orientation == LinearLayout.HORIZONTAL) {
                 if (addWordInsideLinearlayouts != null && addWordInsideLinearlayouts.length > 0) {
                     for (int w = addWordInsideLinearlayouts.length - 1; w >= 0; w--) {
-                        //如果是字母
                         for (TextView textView : addWordInsideLinearlayouts[w].getTextViews()) {
                             if (StringUtils.isEnglish(textView.getText().toString())) {
                                 textView.setRotation(90);
@@ -336,15 +307,14 @@ public class AddWordOutsideLinearLayout extends LinearLayout {
                             }
                         }
 
-                        //如果是数字
-                        for (TextView textView : addWordInsideLinearlayouts[w].getTextViews()) {
+                       /* for (TextView textView : addWordInsideLinearlayouts[w].getTextViews()) {
                             for (int i = 0; i < smallNumbers.length; i++) {
                                 if (smallNumbers[i].equals(textView.getText().toString())) {
                                     textView.setText(bigNumbers[i]);
                                     numberViews.add(textView);
                                 }
                             }
-                        }
+                        }*/
 
                         addView(addWordInsideLinearlayouts[w]);
                     }

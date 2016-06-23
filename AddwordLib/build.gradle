@@ -1,8 +1,8 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven' //you add
+apply plugin: 'com.jfrog.bintray' //you add
 
-version = "1.0.0"
+version = "1.0.0" //your version
 
 android {
     compileSdkVersion 23
@@ -29,8 +29,8 @@ dependencies {
 
 }
 
-def siteUrl = 'https://github.com/jinguangyue/AddwordDemo'    // project homepage
-def gitUrl = 'https://github.com/jinguangyue/AddwordDemo.git' // project git
+def siteUrl = 'https://github.com/jinguangyue/AddwordLib'    // project homepage
+def gitUrl = 'https://github.com/jinguangyue/AddwordLib.git' // project git
 group = "com.jinguangyue.addwordlib"
 
 install {
@@ -39,7 +39,7 @@ install {
         pom {
             project {
                 packaging 'aar'
-                name 'addwordlib For Android'
+                name 'This is the vertical TextView lib For Android'
                 url siteUrl
                 licenses {
                     license {
@@ -68,17 +68,14 @@ task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
     classifier = 'sources'
 }
-
 task javadoc(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
 }
-
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
     from javadoc.destinationDir
 }
-
 artifacts {
     archives javadocJar
     archives sourcesJar

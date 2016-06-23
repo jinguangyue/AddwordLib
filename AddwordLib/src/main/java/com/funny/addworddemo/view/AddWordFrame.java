@@ -41,11 +41,10 @@ public class AddWordFrame extends FrameLayout {
     private float centerX;
     private float centerY;
 
-    //用于缩放
-    public PointF leftTop = new PointF();// 图片左上角的坐标
-    public PointF rightTop = new PointF();// 右上
-    public PointF leftBottom = new PointF();// 左下
-    public PointF rightBottom = new PointF();// 图片右下角的坐标
+    public PointF leftTop = new PointF();
+    public PointF rightTop = new PointF();
+    public PointF leftBottom = new PointF();
+    public PointF rightBottom = new PointF();
     private boolean isSelect = false;
     public Bitmap bitDelete = null;
     public Bitmap bitMove = null;
@@ -100,10 +99,8 @@ public class AddWordFrame extends FrameLayout {
         layout = new AddWordOutsideLinearLayout(context);
         layout.setTextColor(Color.WHITE);
         layout.setTextSize(30);
-        //这里的LinearLayout.VERTICAL实际上是每一行是竖排 但是里面的每一个字都是横排 所以它标识的其实是横向的 请结合效果理解一下 实在没看明白可以留言给我
         layout.setTextViewOrientation(LinearLayout.VERTICAL);
-        layout.setText("双击编辑");
-//        layout.setText("jin\n靳广越靳广越\n666");
+        layout.setText("Double Click");
         bitmap = BitmapUtils.convertViewToBitmap(layout);
 
         mImageWidth = bitmap.getWidth();
@@ -242,21 +239,6 @@ public class AddWordFrame extends FrameLayout {
                 postInvalidate();
             }
         });
-        /*new Thread(new Runnable() {
-            @Override
-            public void run() {
-                *//*handler.post(new Runnable() {
-                    @Override
-                    public void run() {*//*
-                postInvalidate();
-                *//*    }
-                });*//*
-                // 使用postInvalidate可以直接在线程中更新界面
-            }
-        }).start();*/
     }
 
-    public int getBdeleteWidth() {
-        return bdeleteWidth;
-    }
 }

@@ -1,8 +1,5 @@
 package com.funny.addworddemo.view;
 
-/**
- * 贴纸编辑
- */
 public class AddFrameHolder {
 
     private AddWordFrame addWordFrame;

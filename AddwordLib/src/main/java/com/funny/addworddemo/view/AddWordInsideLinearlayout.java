@@ -76,27 +76,15 @@ public class AddWordInsideLinearlayout extends LinearLayout {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                         myText.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
-                    /*int height = 0;
-                    if(height < myText.getHeight()){
-                        height = myText.getHeight();
-                    }*/
+
                     if(myText.getHeight() != 0){
                         AppConst.textHeight = myText.getHeight();
-                        LogUtils.i("AppConst.textHeight===" + AppConst.textHeight);
                     }
                     AppConst.textHeight = myText.getHeight();
-//                    MyApplication.getInstance().setTextWidth(60);
                 }
             });
         }
     }
-
-   /* @Override
-    public void onWindowFocusChanged(boolean hasWindowFocus) {
-        super.onWindowFocusChanged(hasWindowFocus);
-        MyApplication.getInstance().setTextHeight(myText.getHeight());
-        Log.e("yue", "myText.getHeight()onWindowFocusChanged" + myText.getHeight());
-    }*/
 
     public List<TextView> getTextViews() {
         return textViews;

@@ -5,7 +5,6 @@ import android.util.Log;
 
 /**
  * Created by Wxcily on 15/10/29.
- * Log控制工具
  */
 public class LogUtils {
     private static String TAG = "Funny";
