@@ -234,6 +234,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void addMyFrame() {
+        //Each additional view Now  set all view is not selected
         for (int i = (addFrameHolders.size() - 1); i >= 0; i--) {
             AddWordFrame addWordFrame = addFrameHolders.get(i).getAddWordFrame();
             if (addWordFrame.isSelect()) {
@@ -241,8 +242,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
             }
         }
+
+        //new a view
         addWordFrame = new AddWordFrame(this);
         addWordFrame.setSelect(true);
+        //add to your frame
         frame.addView(addWordFrame);
 
         layout = addWordFrame.getLayout();
@@ -252,23 +256,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
         addWordWidth = addWordBitmap.getWidth();
         addWordHeight = addWordBitmap.getHeight();
 
-        //这里是想平移到屏幕比较好看的位置
+        //Set to the center of the screen and set the vertical and horizontal coordinates of four points
         addWordx1 = width/2 - addWordWidth /2;
         addWordy1 = height/3;
-        //原图左上角
         addWordFrame.leftTop.set(addWordx1, addWordy1);
-        // 原图右上角
         addWordFrame.rightTop.set(addWordx1 + addWordWidth, addWordy1);
-        // 原图左下角
         addWordFrame.leftBottom.set(addWordx1, addWordy1 + addWordHeight);
-        // 原图右下角
         addWordFrame.rightBottom.set(addWordx1 + addWordWidth, addWordy1 + addWordHeight);
 
+
+        //here use matrix to scaling gesture
         addWordMatrix = new Matrix();
         addWordMatrix.postTranslate(addWordx1, addWordy1);
         addWordFrame.setMatrix(addWordMatrix);
 
-        //这个类里面主要是存储当前view的区域
+        //Here for each view with a rectangular package , click the rectangle on selected current view
         AddWordFrameState addWordFrameState = new AddWordFrameState();
         addWordFrameState.setLeft(addWordx1);
         addWordFrameState.setTop(addWordy1);
@@ -285,7 +287,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void selectMyFrame(float x, float y) {
-        //选取消所有的选中 后面只有点击到的才是选中状态
+        //Select the option to cancel all back to only one click is selected
         for (int i = (addFrameHolders.size() - 1); i >= 0; i--) {
             AddFrameHolder addFrameHolder = addFrameHolders.get(i);
             if (addFrameHolder.getAddWordFrame().isSelect()) {
@@ -296,30 +298,30 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         for (int i = (addFrameHolders.size() - 1); i >= 0; i--) {
             AddFrameHolder addFrameHolder = addFrameHolders.get(i);
-            //创建一个矩形区域 这里的getLeft getTop等等的意思是当前view的最左边 最上边 最右边和最下边 只有点击到这个区域里面才是选中
+            //Create a rectangular area here getLeft getTop etc. mean the current view of the leftmost
+            // uppermost and lowermost rightmost only to click inside the region is selected
             Rect rect = new Rect((int)addFrameHolder.getState().getLeft(),
                     (int)addFrameHolder.getState().getTop(),
                     (int)addFrameHolder.getState().getRight(),
                     (int)addFrameHolder.getState().getBottom());
 
             if (rect.contains((int) x, (int) y)) {
-                //如果选中 当前view图层提到最上面
+                //If you select the current view mentioned uppermost layer
                 addFrameHolder.getAddWordFrame().bringToFront();
                 addFrameHolder.getAddWordFrame().setSelect(true);
-                //记录选中了哪个
+                //Which record is selected
                 AddWordSelectImageCount = i;
-                LogUtils.e("选中");
+                LogUtils.e("selected");
                 break;
             }
             AddWordSelectImageCount = -1;
-            LogUtils.e("没选中");
+            LogUtils.e("no select");
         }
     }
 
     class AddWordMyOntouch implements View.OnTouchListener {
-        //俩个手指间的距离
         private float baseValue = 0;
-        //原来的角度
+        //The original angle
         private float oldRotation;
         //旋转和缩放的中点
         private PointF midP;
