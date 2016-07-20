@@ -24,6 +24,6 @@ dependencies {
 ![](https://github.com/jinguangyue/AddwordLib/blob/master/AddwordLib/screenshots/textview%E6%A8%AA%E7%AB%96.gif)
 
 具体讲解可以点击我的博客：
-http://blog.csdn.net/CoderYue/article/details/51149936
+http://blog.csdn.net/coderyue/article/details/51149936
 </br>
 
