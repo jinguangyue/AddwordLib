@@ -126,6 +126,10 @@ private void selectMyFrame(float x, float y) {
 
 **Demo detailed code can be viewed below MainActivity**
 
+## 关注我的 Google Play 独立开发公众号
+## 通过从零到一在 Google Play 开发出下载量 300万 APP 的经历，我将把很多精彩的故事分享到公众号，扫描下方二维码和我一起开发 APP 赚美元吧！
+<img src="https://img-blog.csdnimg.cn/20190221223739781.jpg" width="252" height="252">
+
 #License
 ```
 Copyright 2016 jinguangyue
